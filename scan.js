@@ -74,7 +74,7 @@ const searchPromises = [];
 
 const clone_repo = (url, directory_path, name, full_name) => {
   return new Promise((resolve, reject) => {
-    console.log(`Cloning ${url}`);
+    // console.log(`Cloning ${url}`);
 
     const path = `${directory_path}/${full_name}`;
 
@@ -130,7 +130,7 @@ const semgrep_version = await new Promise((resolve, reject) => {
 
 const scan_repo = ({url, path, directory_path, name, full_name}) => {
   return new Promise((resolve, reject) => {
-    console.log(`Scanning ${url}`);
+    // console.log(`Scanning ${url}`);
 
     const semgrep_output_path = `${path}/semgrep_output.json`;
     exec(`semgrep --config "p/r2c-security-audit" ${path} --json > ${path}/semgrep_output.json`, (error, stdout, stderr) => {
@@ -150,21 +150,29 @@ const scan_repo = ({url, path, directory_path, name, full_name}) => {
         name,
         full_name,
         semgrep_output_path,
-        semgrep_output: JSON.stringify(semgrep_output, null, 2),
+        semgrep_output,
+        semgrep_outputx: JSON.stringify(semgrep_output, null, 2),
       });
     });
   });
 }
-
-
-console.log();
-console.log();
-console.log();
 
 Promise.all(searchPromises).then((repos) => {
   return Promise.all(
     repos.flat().map((repo) => scan_repo({url: repo.url, path: repo.path, directory_path: repo.directory_path, name: repo.name, full_name: repo.full_name}))
   );
 }).then((repos) => {
-  console.log(repos);
+  const triggered_rules = repos.map(({semgrep_output}) => {
+    return semgrep_output.results.map(({check_id}) => check_id);
+  }).flat().reduce((acc, check_id) => {
+    acc[check_id] = (acc[check_id] || 0) + 1;
+    return acc;
+  }, {});
+  
+  
+  Object.entries(triggered_rules).sort((a, b) => b[1] - a[1]).map(([check_id, count]) => {
+    console.log(`${check_id}: ${count}`);
+  });
 });
+
+
