@@ -1,19 +1,28 @@
 # Yomi's Semgrep take home
 
-## :exclamation: Note/Caveat: 
-The problem statement assks that cloned repos are stored in paths by name. For example "**script should download OWASP/NodeGoat to /tmp/repos/NodeGoat, OWASP/Serverless-Goat to /tmp/repos/Serverless-Goat, etc.**". This quickly breaks if repos witht the same name but different owners come up in the search result. I experienced this when I used the `goat security` search parameter asking for `50` repos. `sonatype-workshops/NodeGoat.git` and `OWASP/NodeGoat.git` appeared in the search result.
+## Usage
+- Clone repo.
+- Run scanner using `❯ ./scan.js "goat security"`.
+  ```
+  $ ./scan.js  "add-github-search-query-here"
+  20              \ # Number of repos to download
+  /tmp/repos        # Where to store the downloaded repos`);
+   ``` 
 
-So I decided to use the full name instead.. That is **script downloads OWASP/NodeGoat to /tmp/repos/OWASP/NodeGoat, OWASP/Serverless-Goat to /tmp/repos/OWASP/Serverless-Goat, etc.**"
+## :exclamation: Note/Caveat: 
+- The problem statement asked that repos are cloned into directories named as the name of the repo. For example "**script should download OWASP/NodeGoat to /tmp/repos/NodeGoat, OWASP/Serverless-Goat to /tmp/repos/Serverless-Goat, etc.**". This quickly breaks if repos with the same name but different owners come up in the search result. I experienced this when I used the `goat security` search parameter asking for `50` repos. `sonatype-workshops/NodeGoat.git` and `OWASP/NodeGoat.git` appeared in the search result.
+
+  So I decided to use the full name instead.. That is **script downloads OWASP/NodeGoat to /tmp/repos/OWASP/NodeGoat, OWASP/Serverless-Goat to /tmp/repos/OWASP/Serverless-Goat, etc.**"
+
+- When cloning, if folder exists already, I delete it first before cloning. So one can say that whatever is in the path a repo is being cloned into is overwritten. This becomes safer since the "owner" is now used in the path name.
 
 ## Dependencies/Prerequisites
 - NodeJS. This was implemented in node version v19.9.0
 - Semgrep. Follow the instructions on [Semgrep's website](https://semgrep.dev/docs/getting-started/) for your specific environment to install semgrep. This repo will assume that it is set up already. This was tested with Semgrep version - 1.39.0
 
-## FYI
-- If path `git clone` writes to exists already, we first delete. So one can say, an existing/cloned repo is overwritten.
 
 ## Thought dump while working on the assignment
-I have decided to detail my reasoning process here in the README as I solve the two take home problems. Some of these will come across as raw thoughts - bear with me.
+I have decided to detail my reasoning process here in the README as I solve the take home problems. Some of these will come across as raw thoughts - bear with me.
 
 After reading Part 1 of the assignment, my brain decided to choose Javascript/NodeJS as the technology choice/stack. Primarily for two reasons
 1. Although I am fluent in other languages, it is the language I will be most comfortable in right now
