@@ -1,0 +1,19 @@
+{
+  "name": "semgrep-take-home",
+  "version": "1.0.0",
+  "description": "Semgrep's take home assignment",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yomexzo/semgrep-take-home.git"
+  },
+  "author": "Yomi Osamiluyi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yomexzo/semgrep-take-home/issues"
+  },
+  "homepage": "https://github.com/yomexzo/semgrep-take-home#readme"
+}
