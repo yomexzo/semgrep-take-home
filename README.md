@@ -1,5 +1,10 @@
 # Yomi's Semgrep take home
 
+## :exclamation: Note/Caveat: 
+The problem statement assks that cloned repos are stored in paths by name. For example "**script should download OWASP/NodeGoat to /tmp/repos/NodeGoat, OWASP/Serverless-Goat to /tmp/repos/Serverless-Goat, etc.**". This quickly breaks if repos witht the same name but different owners come up in the search result. I experienced this when I used the `goat security` search parameter asking for `50` repos. `sonatype-workshops/NodeGoat.git` and `OWASP/NodeGoat.git` appeared in the search result.
+
+So I decided to use the full name instead.. That is **script downloads OWASP/NodeGoat to /tmp/repos/OWASP/NodeGoat, OWASP/Serverless-Goat to /tmp/repos/OWASP/Serverless-Goat, etc.**"
+
 ## Dependencies/Prerequisites
 - NodeJS. This was implemented in node version v19.9.0
 - Semgrep. Follow the instructions on [Semgrep's website](https://semgrep.dev/docs/getting-started/) for your specific environment to install semgrep. This repo will assume that it is set up already. This was tested with Semgrep version - 1.39.0
@@ -23,3 +28,7 @@ What this means is that for searching the Github API and and cloning the repos i
 - ensuring that path provided does not exists and if it exists, must be a directory. Since we will be downloading things in there.
 
 Time to figure out how to use semgrep. Figured installation was easy! Semgrep's docs site to the rescue! Time to figure out how to perform the scan.
+
+Once implementation was completed. I decided to test. Oh my, I was close to tearing out all of my hair wondering why semgrep wasn't returning any findings. Turned out it was skipping all files because I used "test" as my directory. Which is part of `.semgrepignore` defaults. JUST, WOW! Once I changed the directory name, I was able to validate things.
+
+I had some logs showing status of the script (what it is doing). But, I commented that out since there is an expected output and just in case the output is consumed by an automated script.
