@@ -41,3 +41,5 @@ Time to figure out how to use semgrep. Figured installation was easy! Semgrep's 
 Once implementation was completed. I decided to test. Oh my, I was close to tearing out all of my hair wondering why semgrep wasn't returning any findings. Turned out it was skipping all files because I used "test" as my directory. Which is part of `.semgrepignore` defaults. JUST, WOW! Once I changed the directory name, I was able to validate things.
 
 I had some logs showing status of the script (what it is doing). But, I commented that out since there is an expected output and just in case the output is consumed by an automated script.
+
+I did not spend too much time on bugs / potential vulns. For example, I ran `semgrep` against this repo and it turned up with a finding. 
